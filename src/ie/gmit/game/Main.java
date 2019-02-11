@@ -34,11 +34,27 @@ public class Main {
 			board[row - 1][column - 1] = 'X';
 			
 			displayBoard();
+			
+			// Add condition to break loop on win. Check for 3 similar items in
+			// a line and check if one of them is not a '?'
+			if ((board[0][0] == board[0][1] && board[0][1] == board[0][2] && board[0][2] != '?') ||
+				(board[1][0] == board[1][1] && board[1][1] == board[1][2] && board[1][2] != '?') ||
+				(board[2][0] == board[2][1] && board[2][1] == board[2][2] && board[2][2] != '?') ||
+				(board[0][0] == board[1][0] && board[1][0] == board[2][0] && board[2][0] != '?') ||
+				(board[0][1] == board[1][1] && board[1][1] == board[2][1] && board[2][1] != '?') ||
+				(board[0][2] == board[1][2] && board[1][2] == board[2][2] && board[2][2] != '?') ||
+				(board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[2][2] != '?') ||
+				(board[2][0] == board[1][1] && board[1][1] == board[0][2] && board[0][2] != '?')) {
+					System.out.println("You Win!");
+					break;
+			}
 		}
 		
 		// If we exit while loop we know all 9 positions are full and
 		// there is no winner.
-		System.out.println("Game is a draw.");
+		if (inputCount == MAX_INPUTS) {
+			System.out.println("Game is a draw.");
+		}
 		
 		userInput.close(); // Close Scanner object.
 		
