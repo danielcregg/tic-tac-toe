@@ -14,20 +14,31 @@ public class Main {
 		Scanner userInput = new Scanner(System.in);
 		int row = 0;
 		int column = 0;
+		int inputCount = 0;
+		final int MAX_INPUTS = 9;
 		
 		System.out.println("Welcome to Tic-Tac-Toe");
 		
 		displayBoard();
 		
-		System.out.println("Select a row (1 - 3): ");
-		row = userInput.nextInt();
-		System.out.println("Select a column (1 - 3): ");
-		column = userInput.nextInt();
+		// Keep asking for inputs until we have a winner or all positions full
+		while (inputCount < MAX_INPUTS) {
+			inputCount++; // Count user input
+			
+			System.out.println("Select a row (1 - 3): ");
+			row = userInput.nextInt();
+			System.out.println("Select a column (1 - 3): ");
+			column = userInput.nextInt();
+			
+			// Assign user ID (i.e. X or O) to board location (i.e. (row, column))
+			board[row - 1][column - 1] = 'X';
+			
+			displayBoard();
+		}
 		
-		// Assign user ID (i.e. X or O) to board location (i.e. (row, column))
-		board[row - 1][column - 1] = 'X';
-		
-		displayBoard();
+		// If we exit while loop we know all 9 positions are full and
+		// there is no winner.
+		System.out.println("Game is a draw.");
 		
 		userInput.close(); // Close Scanner object.
 		
@@ -42,4 +53,5 @@ public class Main {
 		System.out.println("| " + board[2][0] + " | " + board[2][1] + " | " + board[2][2] + " |");
 		System.out.println(" -----------");
 	}
+
 } // End Main Class
