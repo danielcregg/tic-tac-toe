@@ -16,6 +16,7 @@ public class Main {
 		int column = 0;
 		int inputCount = 0;
 		final int MAX_INPUTS = 9;
+		boolean validInput = true;
 		
 		System.out.println("Welcome to Tic-Tac-Toe");
 		
@@ -25,10 +26,13 @@ public class Main {
 		while (inputCount < MAX_INPUTS) {
 			inputCount++; // Count user input
 			
-			System.out.println("Select a row (1 - 3): ");
-			row = userInput.nextInt();
-			System.out.println("Select a column (1 - 3): ");
-			column = userInput.nextInt();
+			do {
+				System.out.println("Select a row (1 - 3): ");
+				row = userInput.nextInt();
+				System.out.println("Select a column (1 - 3): ");
+				column = userInput.nextInt();	
+			} while (row < 1 || row > 3 || column < 1 || column > 3 || board[row][column] != '?');
+					
 			
 			// Assign user ID (i.e. X or O) to board location (i.e. (row, column))
 			board[row - 1][column - 1] = 'X';
