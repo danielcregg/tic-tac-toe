@@ -14,9 +14,10 @@ public class Main {
 		Scanner userInput = new Scanner(System.in);
 		int row = 0;
 		int column = 0;
-		int inputCount = 0;
-		final int MAX_INPUTS = 9;
-		boolean validInput = true;
+		int inputCount = 0; // Keep track of current inputs
+		final int MAX_INPUTS = 9; // Max inputs of any game
+		boolean validInput = true; // Used to check for valid user inputs
+		char turn = 'X'; // Keep track of who's turn it is
 		
 		System.out.println("Welcome to Tic-Tac-Toe");
 		
@@ -28,6 +29,7 @@ public class Main {
 			
 			// Get user input and check if input in range and in empty position
 			do {
+				System.out.println("Player " + turn + " trun:");
 				System.out.println("Select a row (1 - 3): ");
 				row = userInput.nextInt();
 				System.out.println("Select a column (1 - 3): ");
@@ -45,7 +47,7 @@ public class Main {
 			} while (validInput == false);
 					
 			// Assign user ID (i.e. X or O) to board location (i.e. (row, column))
-			board[row - 1][column - 1] = 'X';
+			board[row - 1][column - 1] = turn;
 			
 			displayBoard();
 			
@@ -59,9 +61,18 @@ public class Main {
 				(board[0][2] == board[1][2] && board[1][2] == board[2][2] && board[2][2] != '?') ||
 				(board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[2][2] != '?') ||
 				(board[2][0] == board[1][1] && board[1][1] == board[0][2] && board[0][2] != '?')) {
-					System.out.println("You Win!");
+					System.out.println("Player " + turn + " Wins!");
+					System.out.println("Game Over");
 					break;
+			} else {
+				// If no winner change turn
+				if (turn == 'X') {
+					turn = 'O';
+				} else if (turn == 'O') {
+					turn = 'X';
+				}
 			}
+
 		}
 		
 		// If we exit while loop we know all 9 positions are full and
