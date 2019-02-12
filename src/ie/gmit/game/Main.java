@@ -7,11 +7,12 @@ public class Main {
 	static Scanner userInput = new Scanner(System.in); // Create Scanner Object
 	// Create Tic-Tac-Toe Board
 					        // col1,col2,col3
-	static char[][] board = { { '?', '?', '?' },   // row 1
-					          { '?', '?', '?' },   // row 2
-					          { '?', '?', '?' } }; // row 3
+	static char[][] board = { { '7', '8', '9' },   // row 1
+					          { '4', '5', '6' },   // row 2
+					          { '1', '2', '3' } }; // row 3
 	static int row = 0; // Store user row input
 	static int column = 0; // Store user column input
+	static int position = 0; // Store user position input
 	static char turn = 'X'; // Keep track of who's turn it is
 	static boolean validInput = true; // Used to check for valid user inputs
 	
@@ -41,13 +42,15 @@ public class Main {
 				changePlayerTurn();	
 			}
 
-		}
+		} // End while
 		
 		// If we exit while loop we know all 9 positions are full and
 		// there is no winner.
 		if (inputCount == MAX_INPUTS) {
 			System.out.println("Game is a draw.");
 		}
+		
+		System.out.println("Game Over");
 		
 		userInput.close(); // Close Scanner object.
 		
@@ -67,28 +70,66 @@ public class Main {
 		// Get user input and check if input in range and in empty position
 		do {
 			System.out.println("Player " + turn + " trun:");
-			System.out.println("Select a row (1 - 3): ");
-			row = userInput.nextInt();
-			System.out.println("Select a column (1 - 3): ");
-			column = userInput.nextInt();
-
-			if (row < 1 || row > 3 || column < 1 || column > 3) {
-				System.out.println("ERROR: Input out of bounds! Please try again.");
-				validInput = false;
-			} else if (board[row - 1][column - 1] != '?') {
+			System.out.println("Select a position (1 - 9): ");
+			
+			position = userInput.nextInt();
+			
+			switch (position) {
+				case 1:  row = 3;
+						 column = 1;
+						 validInput = true;
+						 break;
+				case 2:  row = 3;
+						 column = 2;
+						 validInput = true;
+						 break;
+				case 3:  row = 3;
+						 column = 3;
+						 validInput = true;
+						 break;
+				case 4:  row = 2;
+						 column = 1;
+						 validInput = true;
+						 break;
+				case 5:  row = 2;
+						 column = 2;
+						 validInput = true;
+						 break;
+				case 6:  row = 2;
+						 column = 3;
+						 validInput = true;
+						 break;
+				case 7:  row = 1;
+						 column = 1;
+						 validInput = true;
+						 break;
+				case 8:  row = 1;
+						 column = 2;
+						 validInput = true;
+						 break;
+				case 9:  row = 1;
+						 column = 3;
+						 validInput = true;
+						 break;
+				default: System.out.print("Error: ");
+						 if (position < 1 || position > 9) {
+						 	 System.out.println("Input out of bounds! Please try again.");
+						 	 validInput = false;
+						 } // End If
+				} // End Switch
+			if (board[row - 1][column - 1] == 'X' || board[row - 1][column - 1] == 'Y') {
 				System.out.println("ERROR: This position is alread taken! Please try again.");
 				validInput = false;
-			} else {
-				validInput = true;
-			}
-		} while (validInput == false);
+			} // End If
+		} while (validInput == false); //End Do While
+		
 	}
 	
 	static boolean checkIfPlayerWon() {
 		boolean playerWon = false;
 		// Add condition to break loop on win. Check for 3 similar items in
 		// a line and check if one of them is not a '?'
-		if ((board[0][0] == board[0][1] && board[0][1] == board[0][2] && board[0][2] != '?') ||
+		if ((board[0][0] == board[0][1] && board[0][1] == board[0][2] && !Character.isDigit(board[0][2])) ||
 				(board[1][0] == board[1][1] && board[1][1] == board[1][2] && board[1][2] != '?') ||
 				(board[2][0] == board[2][1] && board[2][1] == board[2][2] && board[2][2] != '?') ||
 				(board[0][0] == board[1][0] && board[1][0] == board[2][0] && board[2][0] != '?') ||
@@ -98,7 +139,6 @@ public class Main {
 				(board[2][0] == board[1][1] && board[1][1] == board[0][2] && board[0][2] != '?')) {
 			playerWon = true;		
 			System.out.println("Player " + turn + " Wins!");
-			System.out.println("Game Over");
 			return playerWon; // If player won return true
 		} else {
 			return playerWon; // If player did not win return false
