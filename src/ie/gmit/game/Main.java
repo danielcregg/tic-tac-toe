@@ -26,14 +26,24 @@ public class Main {
 		while (inputCount < MAX_INPUTS) {
 			inputCount++; // Count user input
 			
+			// Get user input and check if input in range and in empty position
 			do {
 				System.out.println("Select a row (1 - 3): ");
 				row = userInput.nextInt();
 				System.out.println("Select a column (1 - 3): ");
-				column = userInput.nextInt();	
-			} while (row < 1 || row > 3 || column < 1 || column > 3 || board[row][column] != '?');
+				column = userInput.nextInt();
+
+				if (row < 1 || row > 3 || column < 1 || column > 3) {
+					System.out.println("ERROR: Input out of bounds! Please try again.");
+					validInput = false;
+				} else if (board[row - 1][column - 1] != '?') {
+					System.out.println("ERROR: This position is alread taken! Please try again.");
+					validInput = false;
+				} else {
+					validInput = true;
+				}
+			} while (validInput == false);
 					
-			
 			// Assign user ID (i.e. X or O) to board location (i.e. (row, column))
 			board[row - 1][column - 1] = 'X';
 			
