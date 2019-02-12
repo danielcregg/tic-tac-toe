@@ -27,12 +27,13 @@ public class Main {
 		
 		// Keep asking for inputs until we have a winner or all positions full
 		while (inputCount < MAX_INPUTS) {
-			inputCount++; // Count user input
 			
 			getUserPositionChoice();
 			
-			// Assign user ID (i.e. X or O) to board location (i.e. (row, column))
+			// Update Board: Assign user ID (i.e. X or O) to board location (i.e. (row, column))
 			board[row - 1][column - 1] = turn;
+			
+			inputCount++; // Count user input
 			
 			displayBoard();
 			
@@ -44,10 +45,11 @@ public class Main {
 
 		} // End while
 		
-		// If we exit while loop we know all 9 positions are full and
-		// there is no winner.
+		// If we exit while loop we know all 9 positions are full or someone has won
 		if (inputCount == MAX_INPUTS) {
 			System.out.println("Game is a draw.");
+		} else {
+			System.out.println("Player " + turn + " Wins!");
 		}
 		
 		System.out.println("Game Over");
@@ -137,8 +139,7 @@ public class Main {
 			(board[0][2] == board[1][2] && board[1][2] == board[2][2] && (board[0][2] != 'X' || board[0][2] != 'Y')) ||
 			(board[0][0] == board[1][1] && board[1][1] == board[2][2] && (board[0][2] != 'X' || board[0][2] != 'Y')) ||
 			(board[2][0] == board[1][1] && board[1][1] == board[0][2] && (board[0][2] != 'X' || board[0][2] != 'Y'))) {
-			playerWon = true;		
-			System.out.println("Player " + turn + " Wins!");
+			playerWon = true;
 			return playerWon; // If player won return true
 		} else {
 			return playerWon; // If player did not win return false
