@@ -40,26 +40,6 @@ public class Main {
 			} else {
 				changePlayerTurn();	
 			}
-			
-//			if ((board[0][0] == board[0][1] && board[0][1] == board[0][2] && board[0][2] != '?') ||
-//				(board[1][0] == board[1][1] && board[1][1] == board[1][2] && board[1][2] != '?') ||
-//				(board[2][0] == board[2][1] && board[2][1] == board[2][2] && board[2][2] != '?') ||
-//				(board[0][0] == board[1][0] && board[1][0] == board[2][0] && board[2][0] != '?') ||
-//				(board[0][1] == board[1][1] && board[1][1] == board[2][1] && board[2][1] != '?') ||
-//				(board[0][2] == board[1][2] && board[1][2] == board[2][2] && board[2][2] != '?') ||
-//				(board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[2][2] != '?') ||
-//				(board[2][0] == board[1][1] && board[1][1] == board[0][2] && board[0][2] != '?')) {
-//					System.out.println("Player " + turn + " Wins!");
-//					System.out.println("Game Over");
-//					break;
-//			} else {
-//				// If no winner change turn
-//				if (turn == 'X') {
-//					turn = 'O';
-//				} else if (turn == 'O') {
-//					turn = 'X';
-//				}
-//			}
 
 		}
 		
