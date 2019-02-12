@@ -97,7 +97,7 @@ public class Main {
 	static void getUserPositionChoice() {
 		// Get user input and check if input in range and in empty position
 		do {
-			System.out.println("Player " + turn + " trun:");
+			System.out.println("Player " + turn + " turn:");
 			System.out.println("Select a position (1 - 9): ");
 			
 			position = userInput.nextInt();
