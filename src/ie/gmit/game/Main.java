@@ -5,6 +5,7 @@ import java.util.Scanner; // Adding to take user input
 public class Main {
 	
 	static Scanner userInput = new Scanner(System.in); // Create Scanner Object
+	static Scanner userInput2 = new Scanner(System.in); // Create Scanner Object
 	// Create Tic-Tac-Toe Board
 					        // col1,col2,col3
 	static char[][] board = { { '7', '8', '9' },   // row 1
@@ -15,43 +16,68 @@ public class Main {
 	static int position = 0; // Store user position input
 	static char turn = 'X'; // Keep track of who's turn it is
 	static boolean validInput = true; // Used to check for valid user inputs
+	static int inputCount = 0; // Keep track of current inputs for current game
 	
 	public static void main(String[] args) {
 		
-		int inputCount = 0; // Keep track of current inputs
+		
 		final int MAX_INPUTS = 9; // Max inputs of any game
 
 		System.out.println("Welcome to Tic-Tac-Toe");
 		
+		boolean playing = true;
+		while(playing) {
 		displayBoard();
-		
-		// Keep asking for inputs until we have a winner or all positions full
-		while (inputCount < MAX_INPUTS) {
 			
-			getUserPositionChoice();
+			// Keep asking for inputs until we have a winner or all positions full
+			while (inputCount < MAX_INPUTS) {
+				
+				getUserPositionChoice();
+				
+				// Update Board: Assign user ID (i.e. X or O) to board location (i.e. (row, column))
+				board[row - 1][column - 1] = turn;
+				
+				inputCount++; // Count user input
+				
+				displayBoard();
+				
+				if (checkIfPlayerWon()) {
+					break; // If player wins break loop, declare victory and end game
+				} else {
+					changePlayerTurn();	
+				}
+	
+			} // End while
 			
-			// Update Board: Assign user ID (i.e. X or O) to board location (i.e. (row, column))
-			board[row - 1][column - 1] = turn;
-			
-			inputCount++; // Count user input
-			
-			displayBoard();
-			
-			if (checkIfPlayerWon()) {
-				break; // If player wins break loop, declare victory and end game
+			// If we exit while loop we know all 9 positions are full or someone has won
+			if (inputCount == MAX_INPUTS) {
+				System.out.println("Game is a draw.");
 			} else {
-				changePlayerTurn();	
+				System.out.println("Player " + turn + " Wins!");
 			}
-
-		} // End while
-		
-		// If we exit while loop we know all 9 positions are full or someone has won
-		if (inputCount == MAX_INPUTS) {
-			System.out.println("Game is a draw.");
-		} else {
-			System.out.println("Player " + turn + " Wins!");
+			
+			System.out.println("Do you wish to play again? Y/N");
+			String answer = userInput2.nextLine();
+			playing = answer.equalsIgnoreCase("y");
+			if (playing) {
+				// If playing again then reset everything
+				board[2][0] = '1';
+				board[2][1] = '2';
+				board[2][2] = '3';
+				board[1][0] = '4';
+				board[1][1] = '5';
+				board[1][2] = '6';
+				board[0][0] = '7';
+				board[0][1] = '8';
+				board[0][2] = '9';
+				row = 0; // Store user row input
+				column = 0; // Store user column input
+				position = 0; // Store user position input
+				turn = 'X'; // Keep track of who's turn it is
+				validInput = true; // Used to check for valid user inputs
+				inputCount = 0;
+			}
 		}
-		
 		System.out.println("Game Over");
 		
 		userInput.close(); // Close Scanner object.
