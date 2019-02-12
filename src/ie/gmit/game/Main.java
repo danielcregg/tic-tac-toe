@@ -129,14 +129,14 @@ public class Main {
 		boolean playerWon = false;
 		// Add condition to break loop on win. Check for 3 similar items in
 		// a line and check if one of them is not a '?'
-		if ((board[0][0] == board[0][1] && board[0][1] == board[0][2] && !Character.isDigit(board[0][2])) ||
-				(board[1][0] == board[1][1] && board[1][1] == board[1][2] && board[1][2] != '?') ||
-				(board[2][0] == board[2][1] && board[2][1] == board[2][2] && board[2][2] != '?') ||
-				(board[0][0] == board[1][0] && board[1][0] == board[2][0] && board[2][0] != '?') ||
-				(board[0][1] == board[1][1] && board[1][1] == board[2][1] && board[2][1] != '?') ||
-				(board[0][2] == board[1][2] && board[1][2] == board[2][2] && board[2][2] != '?') ||
-				(board[0][0] == board[1][1] && board[1][1] == board[2][2] && board[2][2] != '?') ||
-				(board[2][0] == board[1][1] && board[1][1] == board[0][2] && board[0][2] != '?')) {
+		if ((board[0][0] == board[0][1] && board[0][1] == board[0][2] && (board[0][2] != 'X' || board[0][2] != 'Y')) ||
+			(board[1][0] == board[1][1] && board[1][1] == board[1][2] && (board[0][2] != 'X' || board[0][2] != 'Y')) ||
+			(board[2][0] == board[2][1] && board[2][1] == board[2][2] && (board[0][2] != 'X' || board[0][2] != 'Y')) ||
+			(board[0][0] == board[1][0] && board[1][0] == board[2][0] && (board[0][2] != 'X' || board[0][2] != 'Y')) ||
+			(board[0][1] == board[1][1] && board[1][1] == board[2][1] && (board[0][2] != 'X' || board[0][2] != 'Y')) ||
+			(board[0][2] == board[1][2] && board[1][2] == board[2][2] && (board[0][2] != 'X' || board[0][2] != 'Y')) ||
+			(board[0][0] == board[1][1] && board[1][1] == board[2][2] && (board[0][2] != 'X' || board[0][2] != 'Y')) ||
+			(board[2][0] == board[1][1] && board[1][1] == board[0][2] && (board[0][2] != 'X' || board[0][2] != 'Y'))) {
 			playerWon = true;		
 			System.out.println("Player " + turn + " Wins!");
 			return playerWon; // If player won return true
