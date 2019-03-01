@@ -15,7 +15,7 @@ public class Main {
 	static int column = 0; // Store user column input
 	static int position = 0; // Store user position input
 	static char turn = 'X'; // Keep track of who's turn it is
-	static boolean validInput = true; // Used to check for valid user inputs
+	static boolean validInput = false; // Used to check for valid user inputs
 	static int inputCount = 0; // Keep track of current inputs for current game
 	
 	public static void main(String[] args) {
@@ -27,7 +27,6 @@ public class Main {
 		
 		boolean playing = true;
 		while(playing) {
-		displayBoard();
 			
 			// Keep asking for inputs until we have a winner or all positions full
 			while (inputCount < MAX_INPUTS) {
@@ -39,7 +38,7 @@ public class Main {
 			
 				inputCount++; // Count user input
 				
-				displayBoard();
+				
 				
 				// Need to have minimum 5 inputs before winner can be declared
 				if (inputCount >= 5) {
@@ -77,7 +76,7 @@ public class Main {
 				column = 0; // Store user column input
 				position = 0; // Store user position input
 				turn = 'X'; // Keep track of who's turn it is
-				validInput = true; // Used to check for valid user inputs
+				validInput = false; // Used to check for valid user inputs
 				inputCount = 0;
 			}
 		}
@@ -100,8 +99,8 @@ public class Main {
 	static void getUserPositionChoice() {
 		// Get user input and check if input in range and in empty position
 		do {
-			System.out.println("Player " + turn + " turn:");
-			System.out.println("Select a position (1 - 9): ");
+			displayBoard();
+			System.out.println("Player " + turn + " turn. Select a position (1 - 9): ");
 			
 			position = userInput.nextInt();
 			
@@ -142,18 +141,19 @@ public class Main {
 						 column = 3;
 						 validInput = true;
 						 break;
-				default: System.out.print("Error: ");
-						 if (position < 1 || position > 9) {
-						 	 System.out.println("Input out of bounds! Please try again.");
-						 	 validInput = false;
-						 } // End If
-				} // End Switch
-			if (board[row - 1][column - 1] == 'X' || board[row - 1][column - 1] == 'Y') {
+				default:
+					System.out.print("Error: ");
+					if (position < 1 || position > 9) {
+						System.out.println("Position " + position + " does not exist. Please try again.");
+						validInput = false;
+						continue;
+					} // End if
+			} // End Switch
+			if (board[row - 1][column - 1] == 'X' || board[row - 1][column - 1] == 'O') {
 				System.out.println("ERROR: This position is alread taken! Please try again.");
 				validInput = false;
 			} // End If
-		} while (validInput == false); //End Do While
-		
+		} while (validInput == false); // End Do While
 	}
 	
 	static boolean checkIfPlayerWon() {
