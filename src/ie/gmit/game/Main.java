@@ -35,17 +35,17 @@ public class Main {
 				getUserPositionChoice();
 				
 				// Update Board: Assign user ID (i.e. X or O) to board location (i.e. (row, column))
-				board[row - 1][column - 1] = turn;
-				
+				board[row - 1][column - 1] =  turn;
+			
 				inputCount++; // Count user input
 				
 				displayBoard();
 				
 				if (checkIfPlayerWon()) {
 					break; // If player wins break loop, declare victory and end game
-				} else {
-					changePlayerTurn();	
 				}
+				
+				changePlayerTurn();	
 	
 			} // End while
 			
