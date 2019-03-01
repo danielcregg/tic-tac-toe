@@ -41,8 +41,11 @@ public class Main {
 				
 				displayBoard();
 				
-				if (checkIfPlayerWon()) {
-					break; // If player wins break loop, declare victory and end game
+				// Need to have minimum 5 inputs before winner can be declared
+				if (inputCount >= 5) {
+					if (checkIfPlayerWon()) {
+						break; // If player wins break loop, declare victory and end game
+					}
 				}
 				
 				changePlayerTurn();	
