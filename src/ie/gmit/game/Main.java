@@ -14,77 +14,78 @@ public class Main {
 	static int row = 0; // Store user row input
 	static int column = 0; // Store user column input
 	static int position = 0; // Store user position input
-	static char turn = 'X'; // Keep track of who's turn it is
-	static boolean validInput = false; // Used to check for valid user inputs
-	static int inputCount = 0; // Keep track of current inputs for current game
+	static char currentTurn = 'X'; // Keep track of who's turn it is
+	static char winner; // Record who won
+	static boolean validInputChecker = false; // Used to check for valid user inputs
+	static int validInputCounter = 0; // Keep track of current inputs for current game
+	static boolean playAgain = false; // Used to check if user wants to play again
+	
+	static final int MAX_VALID_INPUTS = 9; // Max inputs of any game
 	
 	public static void main(String[] args) {
 		
-		
-		final int MAX_INPUTS = 9; // Max inputs of any game
-
 		System.out.println("Welcome to Tic-Tac-Toe");
-		
-		boolean playing = true;
-		while(playing) {
-			
-			// Keep asking for inputs until we have a winner or all positions full
-			while (inputCount < MAX_INPUTS) {
-				
-				getUserPositionChoice();
-				
-				// Update Board: Assign user ID (i.e. X or O) to board location (i.e. (row, column))
-				board[row - 1][column - 1] =  turn;
-			
-				inputCount++; // Count user input
-				
-				
-				
-				// Need to have minimum 5 inputs before winner can be declared
-				if (inputCount >= 5) {
-					if (checkIfPlayerWon()) {
-						break; // If player wins break loop, declare victory and end game
-					}
-				}
-				
-				changePlayerTurn();	
-	
-			} // End while
-			
-			// If we exit while loop we know all 9 positions are full or someone has won
-			if (inputCount == MAX_INPUTS) {
-				System.out.println("Game is a draw.");
-			} else {
-				System.out.println("Player " + turn + " Wins!");
-			}
-			
+		do {
+			startNewGame();
+			checkGameOutcome();
 			System.out.println("Do you wish to play again? Y/N");
 			String answer = userInput2.nextLine();
-			playing = answer.equalsIgnoreCase("y");
-			if (playing) {
-				// If playing again then reset everything
-				board[2][0] = '1';
-				board[2][1] = '2';
-				board[2][2] = '3';
-				board[1][0] = '4';
-				board[1][1] = '5';
-				board[1][2] = '6';
-				board[0][0] = '7';
-				board[0][1] = '8';
-				board[0][2] = '9';
-				row = 0; // Store user row input
-				column = 0; // Store user column input
-				position = 0; // Store user position input
-				turn = 'X'; // Keep track of who's turn it is
-				validInput = false; // Used to check for valid user inputs
-				inputCount = 0;
-			}
-		}
+			playAgain = answer.equalsIgnoreCase("y");
+		} while(playAgain);
+		
 		System.out.println("Game Over");
-		
 		userInput.close(); // Close Scanner object.
-		
-	} // End Main Method
+		userInput2.close(); // Close Scanner object.
+	} // End Main
+	
+	static void startNewGame() {
+		// Reset everything
+		board[2][0] = '1';
+		board[2][1] = '2';
+		board[2][2] = '3';
+		board[1][0] = '4';
+		board[1][1] = '5';
+		board[1][2] = '6';
+		board[0][0] = '7';
+		board[0][1] = '8';
+		board[0][2] = '9';
+		currentTurn = 'X'; // Keep track of who's turn it is
+		validInputCounter = 0;
+		// Keep asking for inputs until we have no winner and all positions are not full
+		boolean noWinner = true;
+		while (noWinner && validInputCounter < MAX_VALID_INPUTS) {
+
+			getUserPositionChoice();
+
+			// Update Board: Assign user ID (i.e. X or O) to board location (i.e. (row,
+			// column))
+			board[row - 1][column - 1] = currentTurn;
+
+			validInputCounter++; // Count user input
+
+			// Need to have minimum 5 inputs before winner can be declared
+			if (validInputCounter >= 5) {
+				if (checkIfPlayerWon()) { // Check for winner
+					winner = currentTurn; // Record winner
+					noWinner = false; // Set flag to indicate Winner is found
+				} else { // If no winner found change turn
+					changePlayerTurn();
+				}
+			} else {
+				changePlayerTurn();
+			}
+		} // End while
+	}
+	
+	static void checkGameOutcome() {
+		// When game is over we know all 9 positions are full or someone has won
+		if (validInputCounter == MAX_VALID_INPUTS) {
+			System.out.println("Game is a draw.");
+		} else {
+			System.out.println("Player " + winner + " Wins!");
+			displayBoard();
+		}
+	}
 
 	static void displayBoard() {
 		System.out.println(" -----------");
@@ -97,63 +98,64 @@ public class Main {
 	}
 	
 	static void getUserPositionChoice() {
+		validInputChecker = false;
 		// Get user input and check if input in range and in empty position
 		do {
 			displayBoard();
-			System.out.println("Player " + turn + " turn. Select a position (1 - 9): ");
+			System.out.println("Player " + currentTurn + " turn. Select a position (1 - 9): ");
 			
 			position = userInput.nextInt();
 			
 			switch (position) {
 				case 1:  row = 3;
 						 column = 1;
-						 validInput = true;
+						 validInputChecker = true;
 						 break;
 				case 2:  row = 3;
 						 column = 2;
-						 validInput = true;
+						 validInputChecker = true;
 						 break;
 				case 3:  row = 3;
 						 column = 3;
-						 validInput = true;
+						 validInputChecker = true;
 						 break;
 				case 4:  row = 2;
 						 column = 1;
-						 validInput = true;
+						 validInputChecker = true;
 						 break;
 				case 5:  row = 2;
 						 column = 2;
-						 validInput = true;
+						 validInputChecker = true;
 						 break;
 				case 6:  row = 2;
 						 column = 3;
-						 validInput = true;
+						 validInputChecker = true;
 						 break;
 				case 7:  row = 1;
 						 column = 1;
-						 validInput = true;
+						 validInputChecker = true;
 						 break;
 				case 8:  row = 1;
 						 column = 2;
-						 validInput = true;
+						 validInputChecker = true;
 						 break;
 				case 9:  row = 1;
 						 column = 3;
-						 validInput = true;
+						 validInputChecker = true;
 						 break;
 				default:
 					System.out.print("Error: ");
 					if (position < 1 || position > 9) {
 						System.out.println("Position " + position + " does not exist. Please try again.");
-						validInput = false;
+						validInputChecker = false;
 						continue;
 					} // End if
 			} // End Switch
 			if (board[row - 1][column - 1] == 'X' || board[row - 1][column - 1] == 'O') {
 				System.out.println("ERROR: This position is alread taken! Please try again.");
-				validInput = false;
+				validInputChecker = false;
 			} // End If
-		} while (validInput == false); // End Do While
+		} while (validInputChecker == false); // End Do While
 	}
 	
 	static boolean checkIfPlayerWon() {
@@ -176,10 +178,10 @@ public class Main {
 	}
 	
 	static void changePlayerTurn() {
-		if (turn == 'X') {
-			turn = 'O';
-		} else if (turn == 'O') {
-			turn = 'X';
+		if (currentTurn == 'X') {
+			currentTurn = 'O';
+		} else if (currentTurn == 'O') {
+			currentTurn = 'X';
 		}
 	}
 	
