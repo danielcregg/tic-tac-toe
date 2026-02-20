@@ -83,3 +83,10 @@ local.properties
 .cache-main
 .scala_dependencies
 .worksheet
+
+### macOS ###
+.DS_Store
+
+### Windows ###
+Thumbs.db
+desktop.ini
