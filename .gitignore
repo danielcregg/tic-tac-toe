@@ -27,8 +27,9 @@
 hs_err_pid*
 
 ### Eclipse ###
-
 .metadata
+.classpath
+.project
 bin/
 tmp/
 *.tmp

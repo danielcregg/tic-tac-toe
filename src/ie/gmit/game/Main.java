@@ -5,7 +5,6 @@ import java.util.Scanner; // Adding to take user input
 public class Main {
 	
 	static Scanner userInput = new Scanner(System.in); // Create Scanner Object
-	static Scanner userInput2 = new Scanner(System.in); // Create Scanner Object
 	// Create Tic-Tac-Toe Board
 					        // col1,col2,col3
 	static char[][] board = { { '7', '8', '9' },   // row 1
@@ -29,13 +28,12 @@ public class Main {
 			startNewGame();
 			checkGameOutcome();
 			System.out.println("Do you wish to play again? Y/N");
-			String answer = userInput2.nextLine();
+			String answer = userInput.nextLine();
 			playAgain = answer.equalsIgnoreCase("y");
 		} while(playAgain);
 		
 		System.out.println("Game Over");
 		userInput.close(); // Close Scanner object.
-		userInput2.close(); // Close Scanner object.
 	} // End Main
 	
 	static void startNewGame() {
@@ -79,11 +77,11 @@ public class Main {
 	
 	static void checkGameOutcome() {
 		// When game is over we know all 9 positions are full or someone has won
-		if (validInputCounter == MAX_VALID_INPUTS) {
+		displayBoard();
+		if (validInputCounter == MAX_VALID_INPUTS && !checkIfPlayerWon()) {
 			System.out.println("Game is a draw.");
 		} else {
 			System.out.println("Player " + winner + " Wins!");
-			displayBoard();
 		}
 	}
 
@@ -103,9 +101,15 @@ public class Main {
 		do {
 			displayBoard();
 			System.out.println("Player " + currentTurn + " turn. Select a position (1 - 9): ");
-			
-			position = userInput.nextInt();
-			
+
+			try {
+				position = Integer.parseInt(userInput.nextLine().trim());
+			} catch (NumberFormatException e) {
+				System.out.println("Error: Invalid input. Please enter a number between 1 and 9.");
+				validInputChecker = false;
+				continue;
+			}
+
 			switch (position) {
 				case 1:  row = 3;
 						 column = 1;
@@ -152,29 +156,26 @@ public class Main {
 					} // End if
 			} // End Switch
 			if (board[row - 1][column - 1] == 'X' || board[row - 1][column - 1] == 'O') {
-				System.out.println("ERROR: This position is alread taken! Please try again.");
+				System.out.println("ERROR: This position is already taken! Please try again.");
 				validInputChecker = false;
 			} // End If
 		} while (validInputChecker == false); // End Do While
 	}
 	
 	static boolean checkIfPlayerWon() {
-		boolean playerWon = false;
-		// Add condition to break loop on win. Check for 3 similar items in
-		// a line and check if one of them is not a '?'
-		if ((board[0][0] == board[0][1] && board[0][1] == board[0][2] && (board[0][2] != 'X' || board[0][2] != 'Y')) ||
-			(board[1][0] == board[1][1] && board[1][1] == board[1][2] && (board[0][2] != 'X' || board[0][2] != 'Y')) ||
-			(board[2][0] == board[2][1] && board[2][1] == board[2][2] && (board[0][2] != 'X' || board[0][2] != 'Y')) ||
-			(board[0][0] == board[1][0] && board[1][0] == board[2][0] && (board[0][2] != 'X' || board[0][2] != 'Y')) ||
-			(board[0][1] == board[1][1] && board[1][1] == board[2][1] && (board[0][2] != 'X' || board[0][2] != 'Y')) ||
-			(board[0][2] == board[1][2] && board[1][2] == board[2][2] && (board[0][2] != 'X' || board[0][2] != 'Y')) ||
-			(board[0][0] == board[1][1] && board[1][1] == board[2][2] && (board[0][2] != 'X' || board[0][2] != 'Y')) ||
-			(board[2][0] == board[1][1] && board[1][1] == board[0][2] && (board[0][2] != 'X' || board[0][2] != 'Y'))) {
-			playerWon = true;
-			return playerWon; // If player won return true
-		} else {
-			return playerWon; // If player did not win return false
+		// Check for 3 matching items in a row, column, or diagonal
+		// and verify the matched cell is a player marker ('X' or 'O')
+		if ((board[0][0] == board[0][1] && board[0][1] == board[0][2] && (board[0][0] == 'X' || board[0][0] == 'O')) || // Row 1
+			(board[1][0] == board[1][1] && board[1][1] == board[1][2] && (board[1][0] == 'X' || board[1][0] == 'O')) || // Row 2
+			(board[2][0] == board[2][1] && board[2][1] == board[2][2] && (board[2][0] == 'X' || board[2][0] == 'O')) || // Row 3
+			(board[0][0] == board[1][0] && board[1][0] == board[2][0] && (board[0][0] == 'X' || board[0][0] == 'O')) || // Col 1
+			(board[0][1] == board[1][1] && board[1][1] == board[2][1] && (board[0][1] == 'X' || board[0][1] == 'O')) || // Col 2
+			(board[0][2] == board[1][2] && board[1][2] == board[2][2] && (board[0][2] == 'X' || board[0][2] == 'O')) || // Col 3
+			(board[0][0] == board[1][1] && board[1][1] == board[2][2] && (board[0][0] == 'X' || board[0][0] == 'O')) || // Diagonal
+			(board[2][0] == board[1][1] && board[1][1] == board[0][2] && (board[1][1] == 'X' || board[1][1] == 'O'))) { // Anti-diagonal
+			return true;
 		}
+		return false;
 	}
 	
 	static void changePlayerTurn() {
